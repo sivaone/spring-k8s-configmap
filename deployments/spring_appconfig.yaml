@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-cloud-kubernetes-config-demo
+data:
+  application.yaml: |-
+    welcome:
+      message: Hello from k8s welcome

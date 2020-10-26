@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: spring-cloud-kubernetes-config-demo
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,refresh
+welcome:
+  message: ${ENVIRONMENT_WELCOME:Hello welcome yaml}
+message: ${ENVIRONMENT_MSG:Hello rest}

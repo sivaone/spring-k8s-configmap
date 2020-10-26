@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-deployment
+  labels:
+    app: demo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: demo-deployment
+      labels:
+        app: demo
+    spec:
+      serviceAccountName: demo-service-account
+      containers:
+        - name: spring-cloud-kubernetes-config-demo
+          image: sivaone/spring-cloud-kubernetes-config-demo
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ENVIRONMENT_MSG
+              valueFrom:
+                configMapKeyRef:
+                  key: ENVIRONMENT_MSG
+                  name: environment-variable-config
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: demo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo
+spec:
+  selector:
+    app: demo
+  ports:
+    - port: 8080
+      protocol: TCP
+      nodePort: 30000
+      name: http
+  type: NodePort
